@@ -1,0 +1,16 @@
+{
+	"settings":
+	{
+		"token": "PTn456KSqqU7WhSszSe",
+		"query": "demo.new.sql",
+		"response": "table",
+		"postprocess": false,
+		"iplist": ["172.30.0.0/25", "172.30.0.132", "127.0.0.1"]
+	},
+	"arguments":
+	{
+		"lower_limit": {"type": "number", "default": 25},
+		"upper_limit": {"type": "number", "constant": 30},
+		"label":       {"type": "text",   "default": "Just a label", "pattern": "/^[A-ZА-Я 0-9]+$/ui"}
+	}
+}
