@@ -1,0 +1,13 @@
+# Important: AllowOverride All in httpd.conf
+
+RewriteEngine On
+RewriteRule ^grsvc/(\w+)$	restql.php?$1	[NC,L]
+RewriteRule ^grsvc/(\w+)/revision$	restql.php?$1/revision	[NC,L]
+
+order deny,allow
+<files *.*>
+	deny from all
+</files>
+<filesmatch \.php$>
+	allow from all
+</filesmatch>
