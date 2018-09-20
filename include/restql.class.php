@@ -353,7 +353,8 @@ class Restql
                     self::json_response($response, TRUE, $extra);
                     break;
                 case (self::VOID_RESPONSE):
-                    self::json_response('OK', TRUE);
+                    $extra = self::servicePostProcess($postProcessFileName, $args, null, $conn);
+                    self::json_response('OK', TRUE, $extra);
             }
         }
         catch (Exception $err)
