@@ -56,13 +56,13 @@ class Restql
     }
 
     // -------------------------------------------------------------------------------------------------
-    private static function to_utf8($s)
+    private static function to_utf8($s) // Not used. Have it in place for just in case
     {
       return iconv('CP1251', 'UTF-8', $s);
     }
 
     // -------------------------------------------------------------------------------------------------
-    // Helper - senf JSON response and exit
+    // Helper - send JSON response and exit
     // -------------------------------------------------------------------------------------------------
     private static function json_response($contents, $status = TRUE, $extra_payload = FALSE)
     {
@@ -250,7 +250,6 @@ class Restql
         $connectionFileName = $instanceFilesLocation.DIRECTORY_SEPARATOR.'db.connection.config';
         $loggerSqlFileName  = $instanceFilesLocation.DIRECTORY_SEPARATOR.'logger.sql.config';
 
-        mb_regex_encoding('UTF-8');
         $this->connectionString = file_get_contents($connectionFileName);
         $this->loggerSql = (file_exists($loggerSqlFileName)) ? file_get_contents($loggerSqlFileName): FALSE;
     }
