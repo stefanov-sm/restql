@@ -65,6 +65,7 @@ The following response modes are supported:
  - returning the entire query rowset as a JSON array of objects
  - returning a single row as a JSON object
  - returning a single value as is
+ - returning a JSON value
  - returning no result
 
 ## Sample server deployment on Apache httpd
@@ -214,9 +215,10 @@ Example: "query": "demo.new.sql"
 
 |mode| description|
 |---|---|
-|"table"| for a row set returning query. Rows are retrieved by `PDOStatement::fetchAll()` method and sent|
-|"row"| for a single row returning query. A single row is retrieved by `PDOStatement::fetch()` method and sent|
-|"value"| for value returning query. A single value is retrieved by `PDOStatement::fetchColumn()` method and sent|
+|"table"| for row set returning queries. Rows are retrieved by `PDOStatement::fetchAll()` method and sent as an array of JSON objects|
+|"row"| for single row returning queries. A single row is retrieved by `PDOStatement::fetch()` method and sent as a JSON object|
+|"value"| for value returning queries. A single value is retrieved by `PDOStatement::fetchColumn()` method and sent as is|
+|"jsonvalue"| for json-returning queries. A single value is retrieved by `PDOStatement::fetchColumn()` method and sent as JSON|
 |"void"| no data is returned|
 
 ```json
