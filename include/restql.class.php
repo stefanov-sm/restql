@@ -8,6 +8,7 @@ class Restql
 {
     const   RESULT_SET_RESPONSE = 'table',
             SINGLE_VALUE_RESPONSE = 'value',
+            JSON_VALUE_RESPONSE = 'jsonvalue',
             SINGLE_RECORD_RESPONSE = 'row',
             VOID_RESPONSE = 'void';
 
@@ -292,7 +293,12 @@ class Restql
         // Check mandatory configuration settings
         if (!array_key_exists('query', $cfg_settings) || !file_exists($resourceSqlFileName = $this->serviceFilesLocation.$cfg_settings['query']) ||
             !array_key_exists('token', $cfg_settings) || !array_key_exists('response', $cfg_settings) ||
-            !in_array($cfg_settings['response'], [self::RESULT_SET_RESPONSE, self::SINGLE_VALUE_RESPONSE, self::SINGLE_RECORD_RESPONSE, self::VOID_RESPONSE]))
+            !in_array($cfg_settings['response'], 
+            	[
+            	 self::RESULT_SET_RESPONSE, self::SINGLE_VALUE_RESPONSE, 
+            	 self::SINGLE_RECORD_RESPONSE, self::VOID_RESPONSE, self::JSON_VALUE_RESPONSE
+            	])
+           )
         {
             self::log('Mandatory configuration attribute(s) missing or invalid');
             self::service_error();
@@ -351,6 +357,11 @@ class Restql
                     $response = $prs->fetchColumn();
                     $extra = self::servicePostProcess($postProcessFileName, $args, $response, $conn);
                     self::json_response($response, TRUE, $extra);
+                    break;
+                case (self::JSON_VALUE_RESPONSE):
+                    $response = $prs->fetchColumn();
+                    $extra = self::servicePostProcess($postProcessFileName, $args, $response, $conn);
+                    self::json_response(json_decode($response), TRUE, $extra);
                     break;
                 case (self::VOID_RESPONSE):
                     $extra = self::servicePostProcess($postProcessFileName, $args, null, $conn);
