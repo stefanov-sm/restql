@@ -112,11 +112,14 @@ class RestqlClient
 /*
 CLI example / unit test
 
- $svc = new RestqlClient('https://clients.mbm-express.net/restsvc');
- $svc -> accesstoken('PTn456KSqqU7WhSszSe');
+ define ('BASEURL', 'https://clients.mbm-express.net/restsvc');
+ define ('ACCESSTOKEN', 'PTn456KSqqU7WhSszSe');
  
- echo $svc -> baseurl().PHP_EOL;
- echo $svc -> accesstoken().PHP_EOL;
- echo $svc -> revision('demo').PHP_EOL;
- echo $svc -> invoke('demo', ['lower_limit' => 28, 'label' => 'lorem ipsum']).PHP_EOL;
+ $restql = new RestqlClient(BASEURL);
+ $restql -> accesstoken(ACCESSTOKEN);
+ 
+ echo $restql -> baseurl().PHP_EOL;
+ echo $restql -> accesstoken().PHP_EOL;
+ echo $restql -> revision('demo').PHP_EOL;
+ echo $restql -> invoke('demo', ['lower_limit' => 28, 'label' => 'lorem ipsum']).PHP_EOL;
 */
