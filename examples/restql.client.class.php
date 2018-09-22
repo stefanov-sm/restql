@@ -119,5 +119,4 @@ CLI example / unit test
  echo $svc -> accesstoken().PHP_EOL;
  echo $svc -> revision('demo').PHP_EOL;
  echo $svc -> invoke('demo', ['lower_limit' => 28, 'label' => 'lorem ipsum']).PHP_EOL;
-
 */
