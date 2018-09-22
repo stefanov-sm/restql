@@ -9,7 +9,7 @@
 class RestqlClient
 {
     const HEADER_LIST_DELIMITER = "\x0D\x0A";
-    private static function http_post_json($url, $content, $headers = null)
+    private static function http_post_json($url, $content, $headers = NULL)
     {
         if (is_null($headers)) $headers = [];
         $headers[] = ['Content-type', 'application/json; charset=utf-8'];
@@ -24,7 +24,7 @@ class RestqlClient
         return file_get_contents($url, FALSE, $context);
     }
 
-    private static function http_get($url, $headers = null)
+    private static function http_get($url, $headers = NULL)
     {
         $context_array = ['http' => ['method'  => 'GET']];
         if (!is_null($headers))
