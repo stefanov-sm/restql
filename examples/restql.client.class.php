@@ -1,4 +1,5 @@
 <?php
+
 // See example / unit test below
 
 /**
@@ -17,7 +18,9 @@ class RestqlClient
         {
             $header = "{$header[0]}: {$header[1]}";
         }
-        $context = stream_context_create(['http' => ['method' => 'POST', 'header' => implode(self::HEADER_LIST_DELIMITER, $headers), 'content' => $content]]);
+        $context = stream_context_create(['http' => ['method' => 'POST', 
+                                          'header' => implode(self::HEADER_LIST_DELIMITER, $headers), 
+                                          'content' => $content]]);
         return file_get_contents($url, FALSE, $context);
     }
 
@@ -106,14 +109,15 @@ class RestqlClient
     }
 }
 
+/*
+CLI example / unit test
 
-// CLI unit test
+ $svc = new RestqlClient('https://clients.mbm-express.net/restsvc');
+ $svc -> accesstoken('PTn456KSqqU7WhSszSe');
+ 
+ echo $svc -> baseurl().PHP_EOL;
+ echo $svc -> accesstoken().PHP_EOL;
+ echo $svc -> revision('demo').PHP_EOL;
+ echo $svc -> invoke('demo', ['lower_limit' => 28, 'label' => 'lorem ipsum']).PHP_EOL;
 
-// $svc = new RestqlClient('https://clients.mbm-express.net/restsvc');
-// $svc -> accesstoken('PTn456KSqqU7WhSszSe');
-//
-// echo $svc -> baseurl().PHP_EOL;
-// echo $svc -> accesstoken().PHP_EOL.PHP_EOL;
-//
-// echo $svc -> revision('demo').PHP_EOL.PHP_EOL;
-// echo $svc -> invoke('demo', ['lower_limit' => 28, 'label' => 'lorem ipsum']);
+*/
