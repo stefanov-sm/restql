@@ -111,7 +111,7 @@ class RestqlClient
 
 /*
 CLI example / unit test
-
+```php
  $svc = new RestqlClient('https://clients.mbm-express.net/restsvc');
  $svc -> accesstoken('PTn456KSqqU7WhSszSe');
  
@@ -119,4 +119,5 @@ CLI example / unit test
  echo $svc -> accesstoken().PHP_EOL;
  echo $svc -> revision('demo').PHP_EOL;
  echo $svc -> invoke('demo', ['lower_limit' => 28, 'label' => 'lorem ipsum']).PHP_EOL;
+```
 */
