@@ -19,6 +19,7 @@ class Restql
     private $serviceFilesLocation;
     private $loggerSql;
     private $connectionString;
+    private $dbAccount;
 
     // -------------------------------------------------------------------------------------------------
     // Generic helpers
@@ -249,9 +250,11 @@ class Restql
     {
         $this->serviceFilesLocation = $serviceFilesLocation.DIRECTORY_SEPARATOR;
         $connectionFileName = $instanceFilesLocation.DIRECTORY_SEPARATOR.'db.connection.config';
+        $accountFileName    = $instanceFilesLocation.DIRECTORY_SEPARATOR.'db.account.config';
         $loggerSqlFileName  = $instanceFilesLocation.DIRECTORY_SEPARATOR.'logger.sql.config';
 
         $this->connectionString = file_get_contents($connectionFileName);
+        $this->dbAccount = (file_exists($accountFileName)) ? json_decode(file_get_contents($accountFileName)): FALSE;
         $this->loggerSql = (file_exists($loggerSqlFileName)) ? file_get_contents($loggerSqlFileName): FALSE;
     }
 
@@ -325,8 +328,15 @@ class Restql
         try
         {
             $sql = file_get_contents($resourceSqlFileName);
-            $conn = new PDO($this->connectionString);
-            $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
+            if ($this->dbAccount)
+            {
+            	$conn = new PDO($this->connectionString, $this->dbAccount->username, $this->dbAccount->password);
+            }
+            else
+            {           
+            	$conn = new PDO($this->connectionString);
+            }
+            $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, TRUE);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             if ($this->loggerSql)
