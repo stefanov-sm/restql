@@ -126,7 +126,7 @@ In this example `<instance config>` is a folder called `include` above base fold
  
 ## Server configuration
 
-Server configuration resides in a folder called `include` above base folder. It comprises of these two files:
+Server configuration resides in a folder called `include` above base folder. It comprises of these files:
  - File _db.connection.config_ (mandatory)  
    contains a PDO connection string **(for performance purposes consider connection pooling)**.
 
@@ -137,6 +137,16 @@ pgsql:
  port=5432;
  user=sampleUser;
  password=samplePassword;
+```
+
+ - File _db.account.config_ (optional)  
+   contains database user credentials (username ana password) in JSON format. Used when these are not contained in the connection string.  
+
+```json
+{
+ "username": "sampleUser",
+ "password": "samplePassword"
+}
 ```
 
  - File _logger.sql.config_ (optional)  
