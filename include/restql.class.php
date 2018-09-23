@@ -336,7 +336,7 @@ class Restql
             {           
             	$conn = new PDO($this->connectionString);
             }
-            $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, TRUE);
+            $conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             if ($this->loggerSql)
