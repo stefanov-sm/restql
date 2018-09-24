@@ -4,7 +4,7 @@
 
 ## About
 ***restql*** is a simple pure vanilla platform with no dependencies that wraps and exposes parameterized SQL queries as JSON web services in a flexible and secure way. 
-The implementation and sample service run on PHP and [PostgreSQL](https://www.postgresql.org/) yet any DBMS with PDO support can be used.
+The implementation and sample service run on PHP and [PostgreSQL](https://www.postgresql.org/). Any other DBMS with PDO support and the corresponding PDO driver installed can be used.
 
 Here is an example. Consider this trivial query:
 ```sql
@@ -68,7 +68,7 @@ The following response modes are supported:
  - returning a JSON value
  - returning no result
 
-## Sample server deployment on Apache httpd
+## Sample server deployment on Apache httpd, PHP and PostgreSQL
 - Download ***restql***;
 - Create a folder for your `<base_url>` in the www folder;
 - Extract the ***restql*** files into it;
