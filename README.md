@@ -286,6 +286,8 @@ Although SQL injection is taken care about by using PDO prepared statements an e
 Always encode response JSON in UTF-8. The straightforward way to do this is to add `charset=utf8` in the `db.connection.config` file. This DSN setting is supported since PHP 5.3.6 and works for 
 [Oracle](http://php.net/manual/en/ref.pdo-oci.connection.php), [SQL Server](http://php.net/manual/en/ref.pdo-dblib.connection.php) and [MySQL](http://php.net/manual/en/ref.pdo-mysql.connection.php) alike. For [PostgreSQL](https://www.postgresql.org/) (in this example) UTF-8 is usually the native client encoding.
 
+**NOTE:** Byte order marks (i.e. [BOM](https://en.wikipedia.org/wiki/Byte_order_mark)) in ***restql***-related files can cause a lot of trouble. Make sure that you always save your files without a BOM.  
+
 ## Post-processing
 
 It is possible to invoke a PHP script after the database query has finished. This will not affect the sql query response.
