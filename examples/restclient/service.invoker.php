@@ -1,11 +1,11 @@
 <?php
 function http_post_json($url, $content, $authorization)
 {
-	$headers = "Content-type: application/json; charset=utf-8\r\nAuthorization: {$authorization}";
+    $headers = "Content-type: application/json; charset=utf-8\r\nAuthorization: {$authorization}";
     $raw_context = 
     [
-    	'http' => ['method' => 'POST', 'header' => $headers, 'ignore_errors' => TRUE, 'content' => $content] 
-    	,'ssl' => ['verify_peer' => false, 'verify_peer_name' => false]
+        'http' => ['method' => 'POST', 'header' => $headers, 'ignore_errors' => TRUE, 'content' => $content] 
+        ,'ssl' => ['verify_peer' => false, 'verify_peer_name' => false]
     ];
     $context = stream_context_create($raw_context);
     $retval = ['http_status' => 'No HTTP status'];
@@ -14,11 +14,11 @@ function http_post_json($url, $content, $authorization)
         $retval['value'] = @ file_get_contents($url, FALSE, $context);
         if (!$retval['value'])
         {
-	        $retval['value'] = 'No response, probably bad URL given';
-	    }
-	    else
-	    {
-        	$retval['http_status'] = $http_response_header[0];
+            $retval['value'] = 'No response, probably bad URL given';
+        }
+        else
+        {
+            $retval['http_status'] = $http_response_header[0];
         }
     }
     else
