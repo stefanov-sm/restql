@@ -318,9 +318,9 @@ class Restql
         $postProcessFileName = (array_key_exists('postprocess', $cfg_settings) && $cfg_settings['postprocess']) ? $this->serviceFilesLocation.$cfg_settings['postprocess']: FALSE;
 
         // Sort out arguments and check token security
-        $args = (array) json_decode($rawArguments);
         $headers = getallheaders();
-        if (!array_key_exists('Authorization', $headers) || ($headers['Authorization'] != $cfg_settings['token']) || !self::manage_arguments($args, $cfg_arguments))
+        $args = (array) json_decode($rawArguments);
+        if ((json_last_error() !== JSON_ERROR_NONE) || !array_key_exists('Authorization', $headers) || ($headers['Authorization'] != $cfg_settings['token']) || !self::manage_arguments($args, $cfg_arguments))
         {
             self::service_error('Arguments error');
         }
