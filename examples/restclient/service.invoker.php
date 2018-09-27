@@ -1,7 +1,8 @@
 <?php
 function http_post_json($url, $content, $authorization)
 {
-    $headers = "Content-type: application/json; charset=utf-8\r\nAuthorization: {$authorization}";
+    $clen = strlen($content);
+    $headers = "Content-type: application/json; charset=utf-8\r\nContent-Length: {$clen}\r\nAuthorization: {$authorization}";
     $raw_context = 
     [
         'http' => ['method' => 'POST', 'header' => $headers, 'ignore_errors' => TRUE, 'content' => $content] 
