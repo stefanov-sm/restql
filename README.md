@@ -330,8 +330,8 @@ in file `demo.config.json`.
 # Important: AllowOverride All in httpd.conf
 
 RewriteEngine On
-RewriteRule ^grsvc/(\w+)$           restql.php?$1           [NC,L]
-RewriteRule ^grsvc/(\w+)/revision$  restql.php?$1/revision  [NC,L]
+RewriteRule ^svc/(\w+)$           restql.php?$1           [NC,L]
+RewriteRule ^svc/(\w+)/revision$  restql.php?$1/revision  [NC,L]
 
 order deny,allow
 <files *.*>
@@ -343,7 +343,7 @@ order deny,allow
 ```
 ## Service invocation
  - URL with URL rewrite:
-   `<base_url>/grsvc/<service_name>`
+   `<base_url>/svc/<service_name>`
  - URL without URL rewrite
    `<base_url>/restql.php?<service_name>`
  - Method: `POST`
@@ -352,7 +352,7 @@ order deny,allow
 
 #### Service revision check
  - URL with URL rewrite
- `<base_url>/grsvc/<service_name>/revision`
+ `<base_url>/svc/<service_name>/revision`
 
  - URL without URL rewrite
  `<base_url>/restql.php?<service_name>/revision`
@@ -370,8 +370,8 @@ JSON with this structure:
 ```
 ## Call example
 
- - URL with URL rewrite: `<base_url>/grsvc/demo`
- - URL without URL rewrite:	`<base_url>/restql.php?demo`
+ - URL with URL rewrite: `<base_url>/svc/demo`
+ - URL without URL rewrite: `<base_url>/restql.php?demo`
 
 #### POST data
 
@@ -384,7 +384,7 @@ JSON with this structure:
 
 #### cURL
 ```
-curl -X POST -H 'Authorization: PTn456KSqqU7WhSszSe' -i http://localhost/servicegen/grsvc/demo --data '{
+curl -X POST -H 'Authorization: PTn456KSqqU7WhSszSe' -i http://localhost/servicegen/svc/demo --data '{
  "lower_limit": 29,
  "label": "Сарми с лозов лист"
 }'
