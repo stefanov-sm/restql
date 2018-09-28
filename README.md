@@ -73,8 +73,9 @@ The following response modes are supported:
 - Create a folder for your `<base_url>` in the www folder;
 - Extract the ***restql*** files into it;
 - Modify `include/db.connection.config` to connect to your [PostgreSQL](https://www.postgresql.org/) database;
+- Modify or remove `include/db.account.config` (see below);
 - Either create an activity log database table and modify `include/logger.sql.config` accordingly (see below) or
-- rename/delete `include/logger.sql.config` to disable activity logging.  
+- rename/remove `include/logger.sql.config` to disable activity logging.  
 
 Now the details
 
