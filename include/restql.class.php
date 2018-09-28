@@ -374,7 +374,8 @@ class Restql
                     self::json_response(json_decode($response), TRUE, $extra);
                     break;
                 case (self::VOID_RESPONSE):
-                    $extra = self::servicePostProcess($postProcessFileName, $args, null, $conn);
+                    $response = null;
+                    $extra = self::servicePostProcess($postProcessFileName, $args, $response, $conn);
                     self::json_response('OK', TRUE, $extra);
             }
         }
