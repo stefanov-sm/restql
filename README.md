@@ -320,7 +320,7 @@ in file `demo.config.json`.
 ## Logging
 
 - Activity is logged by invoking the SQL query in `include/logger.sql.config` file (if any) for every call;
-- Errors are logged in file `debug.log.txt` in `logs` folder.
+- Errors are logged in file `logs/debug.log.txt`.
 
 ## URL rewrite
  - File _.htaccess_
