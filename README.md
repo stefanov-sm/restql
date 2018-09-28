@@ -95,17 +95,14 @@ In this example `<instance config>` is a folder called `include` above base fold
              ├file '.htaccess'
              ├file 'restql.php'
              ├folder 'include'
-             │       ├file '.htaccess'
              │       ├file 'restql.class.php'
              │       ├file 'db.connection.config'
              │       └file 'logger.sql.config'
              ├folder 'services'
-             │       ├file '.htaccess'
              │       ├file 'demo.config.json'
              │       ├file 'demo.new.sql'
              │       └file 'demo.postprocess.php'
              └folder 'logs'
-                     ├file '.htaccess'
                      └file 'debug.log.txt'
 ```
  - File _restql.php_
