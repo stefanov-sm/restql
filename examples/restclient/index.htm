@@ -20,7 +20,7 @@
             <img src="cloud.png">
         </div>
         <div class="internal">
-            <form method="POST" id="invoker" action="service.invoker.php" target="response_area" onsubmit="document.getElementById('response_area').focus()">
+            <form method="POST" action="service.invoker.php" onsubmit="this.target='resparea';document.getElementById('resparea').focus()">
             <table style="width:98%">
                 <tr>
                     <td style="width:13%"><label>URL</label></td>
@@ -41,7 +41,7 @@
             </form>
         </div>
         <div class="internal">
-            <iframe id="response_area" name="response_area" class="response"></iframe>
+            <iframe id="resparea" name="resparea" class="response"></iframe>
         </div>
     </div>
     </body>
