@@ -3,6 +3,7 @@
   "title": "restql sevice configuration schema",
   "type": "object",
   "required": ["settings", "arguments"],
+  "additionalProperties": false,
   "properties":
   {
     "settings":
