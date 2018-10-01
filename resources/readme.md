@@ -1,6 +1,6 @@
 ## (hopefully) helpful resources
 
-- Service configuration validation schema `service.config.json.schema`
+- Service configuration validation schema `service.config.schema.json`
 - Online tools  
 
 [Online JSON schema validator](https://www.jsonschemavalidator.net/)  
