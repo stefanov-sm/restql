@@ -10,34 +10,16 @@
           "type": "object",
           "properties":
           {
-            "token":
+            "token": {"type": "string", "pattern": "^[A-Za-z0-9]{16,64}$"},
+            "query": {"type": "string", "pattern": "^([\\w,\\s-]+\\.)+sql$"},
+            "response": {"type": "string", "enum": ["table", "row", "value", "jsonvalue", "void"]},
+            "postprocess": 
             {
-                "type": "string",
-                "pattern": "^[A-Za-z0-9]{16,64}$"
-            },
-            "query":
-            {
-                "type": "string",
-                "pattern": "^([\\w,\\s-]+\\.)+sql$"
-            },
-            "response":
-            {
-                "type": "string",
-                "enum": ["table", "row", "value", "jsonvalue", "void"]
-            },
-            "postprocess":
-            {
-               "oneOf":
-               [
-                {
-                    "type": "boolean",
-                    "enum": [false]
-                },
-                {
-                    "type": "string",
-                    "pattern": "^([\\w,\\s-]+\\.)+php$"
-                }
-               ]
+             "oneOf": 
+             [
+                 {"type": "boolean", "enum": [false]},
+                 {"type": "string", "pattern": "^([\\w,\\s-]+\\.)+php$"}
+             ]
             },              
             "iplist":
             {
@@ -62,11 +44,7 @@
                     "type": "object",
                     "properties":
                     {
-                        "type":
-                        {
-                            "type": "string",
-                            "enum": ["number", "text", "boolean"]
-                        },
+                        "type": {"type": "string", "enum": ["number", "text", "boolean"]},
                         "default":  {"oneOf": [{"type": "string"}, {"type": "number"}, {"type": "boolean"}]},
                         "constant": {"oneOf": [{"type": "string"}, {"type": "number"}, {"type": "boolean"}]},
                         "pattern":  {"type": "string"}
