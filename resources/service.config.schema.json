@@ -15,22 +15,22 @@
         "query": {"type": "string", "pattern": "^([\\w,\\s-]+\\.)+sql$"},
         "response": {"type": "string", "enum": ["table", "row", "value", "jsonvalue", "void"]},
         "postprocess": 
-      {
-       "oneOf": 
-       [
-         {"type": "boolean", "enum": [false]},
-         {"type": "string", "pattern": "^([\\w,\\s-]+\\.)+php$"}
-       ]
-      },        
-      "iplist":
-      {
-        "type": "array",
-        "items":
         {
-          "type": "string",
-          "pattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/[0-9]{1,2})?$"
+          "oneOf": 
+          [
+            {"type": "boolean", "enum": [false]},
+            {"type": "string", "pattern": "^([\\w,\\s-]+\\.)+php$"}
+          ]
+        },        
+        "iplist":
+        {
+          "type": "array",
+          "items":
+          {
+            "type": "string",
+            "pattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/[0-9]{1,2})?$"
+          }
         }
-      }
       },
       "additionalProperties": false,
       "required": ["token", "query", "response"]
