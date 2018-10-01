@@ -51,6 +51,7 @@
             "pattern":  {"type": "string"}
           },
           "required": ["type"],
+          "additionalProperties": false,
           "not":
           {
             "required": ["default", "constant"]
