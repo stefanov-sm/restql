@@ -186,7 +186,8 @@ _See demo.config.json and demo.new.sql in the example below._
 
 `<sql_file_name>.sql` file contains a single parameterized SQL query. Advanced SQL features (CTEs, window functions, etc.) and database server programming (stored procedures/functions) alike can be used in order to implement complex data logic.
 
-`<service_name>.config.json` file contains service metadata and arguments' definitions. A JSON schema file for validation of `.config.json` files is available in `resources` of this repo.
+`<service_name>.config.json` file contains service metadata and arguments' definitions.  
+**NOTE:** A JSON schema file for validation of `.config.json` files is available in `resources` of this repo.
 
 - File _demo.config.json_
 ```json
