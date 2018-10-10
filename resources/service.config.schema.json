@@ -48,7 +48,7 @@
             "type": {"type": "string", "enum": ["number", "text", "boolean"]},
             "default":  {"oneOf": [{"type": "string"}, {"type": "number"}, {"type": "boolean"}]},
             "constant": {"oneOf": [{"type": "string"}, {"type": "number"}, {"type": "boolean"}]},
-            "pattern":  {"type": "string"}
+            "pattern":  {"type": "string", "format": "regex"}
           },
           "required": ["type"],
           "additionalProperties": false,
