@@ -2,7 +2,7 @@
 // Simple runtime arguments validation schema generator (CLI)
 // S. Stefanov, oct 2018
 
-if (php_sapi_name() !== 'cli')
+if (PHP_SAPI !== 'cli')
 {
   echo 'This is a CLI script'.PHP_EOL;
 }
