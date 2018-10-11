@@ -188,11 +188,11 @@ _See demo.config.json and demo.new.sql in the example below._
 
 `<service_name>.config.json` file contains service metadata and arguments' definitions.  
 
----
+___
 
 **NOTE:** A JSON schema file for validation of `<service_name>.config.json` files and a CLI script for generating runtime arguments' validation JSON schema are available in [resources](resources) folder.
 
----
+___
 
 - File _demo.config.json_
 ```json
