@@ -1,4 +1,4 @@
-## helpful resources
+## resources
 
 - Service configuration validation schema. Validate your `<service_name>.config.json` files against `service.config.schema.json` using [Online JSON schema validator](https://www.jsonschemavalidator.net/)
 - `arguments.schema.php` - runtime arguments validation schema generator (CLI) from `<service_name>.config.json`. Use after `<service_name>.config.json` has been properly validated 
