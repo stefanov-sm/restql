@@ -46,8 +46,8 @@
           "properties":
           {
             "type": {"type": "string", "enum": ["number", "text", "boolean"]},
-            "default":  {"oneOf": [{"type": "string"}, {"type": "number"}, {"type": "boolean"}]},
-            "constant": {"oneOf": [{"type": "string"}, {"type": "number"}, {"type": "boolean"}]},
+            "default":  {"oneOf": [{"type": "string"}, {"type": "number"}, {"type": "boolean"}, {"type": "null"}]},
+            "constant": {"oneOf": [{"type": "string"}, {"type": "number"}, {"type": "boolean"}, {"type": "null"}]},
             "pattern":  {"type": "string", "format": "regex"}
           },
           "required": ["type"],
