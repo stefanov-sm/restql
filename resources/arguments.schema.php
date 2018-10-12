@@ -12,15 +12,17 @@ elseif (($argc < 2) || ($argc > 3))
 }
 else
 {
-  $argsObjectSchema = (object)[];
-  $argsObjectSchema -> type = 'oblect';
-  $argsObjectSchema -> additionalProperties = false;
+  $argsObjectSchema = (object)
+  [
+    '$schema' => 'http://json-schema.org/draft-07/schema#', 'title' => 'restql arguments validation schema',
+    'type' => 'object', 'additionalProperties' => false
+  ];
   @ $config = json_decode(file_get_contents($argv[1]));
   if (json_last_error() === JSON_ERROR_NONE)
   {
     $output = fopen(($argc === 3 ? $argv[2]: 'php://stdout'), 'w');
+    $properties = (object)[];
     $required = [];
-    $properties = [];
     foreach ((array) $config -> arguments as $argname => $argdef)
     {
       $argObjectSchema = (object)[];
@@ -37,11 +39,11 @@ else
       {
         $required[] = $argname;
       }
-      $properties[$argname] = $argObjectSchema;
+      $properties -> $argname = $argObjectSchema;
     }
-    $argsObjectSchema -> properties = (object)$properties;
+    $argsObjectSchema -> properties = $properties;
     $argsObjectSchema -> required = $required;
-    fwrite($output, json_encode($argsObjectSchema, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
+    fwrite($output, json_encode($argsObjectSchema, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
     fclose($output);
   }
   else
