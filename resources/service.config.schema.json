@@ -19,7 +19,7 @@
           "oneOf": 
           [
             {"type": "boolean", "enum": [false]},
-            {"type": "string", "pattern": "^([\\w,\\s-]+\\.)+php$"}
+            {"type": "string", "pattern": "^([\\w,\\s-\\/]+\\.)+php$"}
           ]
         },        
         "iplist":
