@@ -12,7 +12,7 @@
       "properties":
       {
         "token": {"type": "string", "pattern": "^[A-Za-z0-9]{16,64}$"},
-        "query": {"type": "string", "pattern": "^([\\w,\\s-]+\\.)+sql$"},
+        "query": {"type": "string", "pattern": "^([\\w,\\s-\\/]+\\.)+sql$"},
         "response": {"type": "string", "enum": ["table", "row", "value", "jsonvalue", "void"]},
         "postprocess": 
         {
