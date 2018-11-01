@@ -192,7 +192,7 @@ ___
 
 **NOTE:**
 - A JSON schema file for validation of `<service_name>.config.json` files and a CLI script for generating runtime arguments' validation JSON schema are available in [resources](resources) folder. 
-- A web GUI for testing and debugging is available in [restqlclient](examples/restqlclient) folder. 
+- A web GUI for testing and debugging is available in [restclient](examples/restclient) folder. 
 
 ___
 
