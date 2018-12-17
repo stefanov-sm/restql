@@ -5,16 +5,14 @@
         <title>restql basic client</title>
         <style>
             body            { font-family:Calibri}
-            input           { width:100%; background-color:GhostWhite}
+            input           { background-color:GhostWhite}
+            input.text      { width:100%; background-color:GhostWhite}
             textarea.post   { width:100%; background-color:GhostWhite; height:100px; resize:none}
             iframe.response { width:100%; height:400px; border:0px}
-            input.icon      { width:48px; background-color:Beige}
             div.external    { width:800px; margin-left:auto; margin-right:auto;}
-            div.invisible   { width:800px; border:0px;}
-            div.internal    { 
-                              width:800px; border:2px solid blue; padding-left:10px; padding-right:5px; 
-                              padding-top:5px; padding-bottom:5px; border-radius:10px; background-color:Beige
-                            }
+            div.internal    { width:800px; border: 2px solid blue; padding-left:10px; padding-right:5px; padding-top:5px; padding-bottom:5px; border-radius: 10px; background-color:Beige}
+            div.invisible   { width:800px; border: 0px;}
+            .icon           { width:48px; background-color:Beige}
         </style>
     </head>
     <body>
@@ -23,18 +21,19 @@
             <img src="cloud.png">
         </div>
         <div class="internal">
-            <form method="POST" action="service.invoker.php" onsubmit="this.target='resparea';document.getElementById('resparea').focus()">
+            <form method="POST" id="invoker" action="service.invoker.php" target="response_area" onsubmit="document.getElementById('response_area').focus()">
             <table style="width:98%">
                 <tr>
                     <td style="width:13%"><label>URL</label></td>
-                    <td style="width:87%"><input type="text" id="inputURL" name="inputURL"></td>
+                    <td style="width:87%"><input class="text" type="text" id="inputURL" name="inputURL"></td>
                 </tr>
                 <tr>
                     <td><label>Authorization</label></td>
-                    <td><input type="text" id="inputToken" name="inputToken"></td>
+                    <td><input class="text" type="text" id="inputToken" name="inputToken"></td>
                 </tr>
                 <tr>
                     <td>
+                        <input type="checkbox" name="isPost" checked onchange="document.getElementById('inputData').disabled = !(this.checked);" >
                         <label>JSON args</label><br/>&nbsp;
                         <input type="image" src="run.png" class="icon" alt="submit" title="Run request">
                     </td>
@@ -44,7 +43,7 @@
             </form>
         </div>
         <div class="internal">
-            <iframe id="resparea" name="resparea" class="response"></iframe>
+            <iframe id="response_area" name="response_area" class="response"></iframe>
         </div>
     </div>
     </body>
