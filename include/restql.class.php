@@ -27,7 +27,10 @@ class Restql
     private static function log($s)
     {
         $logFileName = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'debug.log.txt';
-        file_put_contents($logFileName, date('Y-m-d H:i:s').': '.var_export($s, TRUE).PHP_EOL, FILE_APPEND);
+        $eventDate = date('Y-m-d H:i:s');
+        $event_message = var_export($s, TRUE);
+        $referer_ip = self::get_caller_ip();
+        file_put_contents($logFileName, "{$eventDate}, referer {$referer_ip}, service '{$_SERVER['QUERY_STRING']}': {$event_message}".PHP_EOL, FILE_APPEND);
     }
 
     // -------------------------------------------------------------------------------------------------
