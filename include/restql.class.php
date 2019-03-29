@@ -2,7 +2,7 @@
 
 // Restql
 // Query-to-RESTful-service generator
-// S.Stefanov, Feb 2017 - Aug 2018
+// S.Stefanov, Feb 2017 - Mar 2019
 
 class Restql
 {
