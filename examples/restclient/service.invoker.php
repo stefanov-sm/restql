@@ -60,15 +60,15 @@ function http_get_json($url, $authorization)
 
 $timeIn = microtime(true);
 
-if ($_POST['isPost'] === 'on')
+if (array_key_exists('isPost', $_POST) && ($_POST['isPost'] === 'on'))
 {
 	$response = http_post_json(trim($_POST['inputURL']), $_POST['inputData'], trim($_POST['inputToken']));
-	$method = 'POST: ';
+	$method = 'POST';
 }
 else	
 {
 	$response = http_get_json(trim($_POST['inputURL']), trim($_POST['inputToken']));
-	$method = 'GET: ';
+	$method = 'GET';
 }
 $timeOut = microtime(true);
 $msPassed = round($timeOut-$timeIn, 3) * 1000;
@@ -86,7 +86,7 @@ header('Cache-Control: no-cache, no-store, must-revalidate');
 <body>
     <table style="width:100%">
         <tr>
-            <td style="color:red; width: 80%"><?php echo $method.$response['http_status']; ?>, execution time <?php echo $msPassed; ?> ms </td>
+            <td style="color:red; width: 80%"><?php echo "$method: {$response['http_status']}, execution time $msPassed ms" ?></td>
             <td style="width: 20%" align="right"><input type="button" value="Clear" onclick="document.location.href='about:blank'" ></td>
         </tr>
     </table>
