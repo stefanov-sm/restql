@@ -139,7 +139,7 @@ pgsql:
 ```
 
  - File _db.account.config_ (optional)  
-   contains database user credentials (username ana password) in JSON format. Used when these are not contained in the connection string.  
+   contains database user credentials (username and password) in JSON format. Used when these are not contained in the connection string.  
 
 ```json
 {
