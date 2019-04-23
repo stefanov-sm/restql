@@ -2,7 +2,7 @@
 
 // Restql
 // Query-to-RESTful-service generator
-// S.Stefanov, Feb 2017 - Mar 2019
+// S.Stefanov, Feb 2017 - Apr 2019
 
 class Restql
 {
@@ -31,6 +31,26 @@ class Restql
         $event_message = var_export($s, TRUE);
         $referer_ip = self::get_caller_ip();
         file_put_contents($logFileName, "{$eventDate}, referer {$referer_ip}, service '{$_SERVER['QUERY_STRING']}': {$event_message}".PHP_EOL, FILE_APPEND);
+    }
+    // -------------------------------------------------------------------------------------------------
+
+    private static function decode_json_error($err)
+    {
+      $decode_table =
+      [
+        0  => 'JSON_ERROR_NONE',
+        1  => 'JSON_ERROR_DEPTH',
+        2  => 'JSON_ERROR_STATE_MISMATCH',
+        3  => 'JSON_ERROR_CTRL_CHAR',
+        4  => 'JSON_ERROR_SYNTAX',
+        5  => 'JSON_ERROR_UTF8',
+        6  => 'JSON_ERROR_RECURSION',
+        7  => 'JSON_ERROR_INF_OR_NAN',
+        8  => 'JSON_ERROR_UNSUPPORTED_TYPE',
+        9  => 'JSON_ERROR_INVALID_PROPERTY_NAME',
+        10 => 'JSON_ERROR_UTF16'
+      ];
+      return $decode_table[$err];
     }
 
     // -------------------------------------------------------------------------------------------------
@@ -323,9 +343,10 @@ class Restql
         // Sort out arguments and check token security
         $args = (array) json_decode($rawArguments);
         
-        if (json_last_error() !== JSON_ERROR_NONE)
+        $json_error = json_last_error();
+        if ($json_error !== JSON_ERROR_NONE)
         {
-            self::log('Call arguments JSON error');
+            self::log('Call arguments JSON error: ' . self::decode_json_error($json_error));
             self::service_error('Arguments error');
         }
         
