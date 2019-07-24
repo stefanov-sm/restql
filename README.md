@@ -358,7 +358,7 @@ order deny,allow
  - Call arguments are POST-ed as JSON
  - Method: `GET`
  - `<service_name>.config.json` must have `"arguments": {}`
- - Call arguments are POST-ed as JSON
+ - Call arguments are ignored
  
 
 #### Service revision check
