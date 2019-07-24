@@ -120,7 +120,7 @@ In this example `<instance config>` is a folder called `include` above base fold
 ```
  - File _restql.class.php_
 
- The main (and only) ***restql*** source file that contains Restql class definition.  
+ The main ***restql*** source file that contains Restql class definition.  
  Restql class has only one public method (except the constructor) - `Restql::handle()`
  
 ## Server configuration
