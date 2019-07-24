@@ -284,7 +284,15 @@ class Restql
     // -------------------------------------------------------------------------------------------------
     public function handle()
     {
-        $rawArguments = file_get_contents('php://input');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST')
+        {
+            $rawArguments = file_get_contents('php://input');
+        }
+        else
+        {
+            $rawArguments = '{}';
+        }
+
         $resourceName = $_SERVER['QUERY_STRING'];
         $callerIp = self::get_caller_ip();
 
