@@ -1,141 +1,14 @@
 <?php
+// Restql query-to-RESTful-service generator
+// S.Stefanov, Feb 2017 - Jul 2019
 
-// Restql
-// Query-to-RESTful-service generator
-// S.Stefanov, Feb 2017 - Apr 2019
-
+require (__DIR__.DIRECTORY_SEPARATOR.'restql.helpers.class.php');
 class Restql
 {
-    const   RESULT_SET_RESPONSE = 'table',
-            SINGLE_VALUE_RESPONSE = 'value',
-            JSON_VALUE_RESPONSE = 'jsonvalue',
-            SINGLE_RECORD_RESPONSE = 'row',
-            VOID_RESPONSE = 'void';
-
-    const   JSON_MODE = 0x180; // JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE, 0x80|0x100;
-    const   HTTP_STATUS_NOT_FOUND = 404, HTTP_STATUS_OK = 200;
+    const   RESULT_SET_RESPONSE = 'table', SINGLE_VALUE_RESPONSE = 'value', JSON_VALUE_RESPONSE = 'jsonvalue', SINGLE_RECORD_RESPONSE = 'row', VOID_RESPONSE = 'void';
     const   REVISION_XR = '/^(\w+)\/revision$/';
 
-    private $serviceFilesLocation;
-    private $loggerSql;
-    private $connectionString;
-    private $dbAccount;
-
-    // -------------------------------------------------------------------------------------------------
-    // Generic helpers
-    // -------------------------------------------------------------------------------------------------
-    private static function log($s)
-    {
-        $logFileName = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'debug.log.txt';
-        $eventDate = date('Y-m-d H:i:s');
-        $event_message = var_export($s, TRUE);
-        $referer_ip = self::get_caller_ip();
-        file_put_contents($logFileName, "{$eventDate}, referer {$referer_ip}, service '{$_SERVER['QUERY_STRING']}': {$event_message}".PHP_EOL, FILE_APPEND);
-    }
-    // -------------------------------------------------------------------------------------------------
-
-    private static function decode_json_error($err)
-    {
-      $decode_table =
-      [
-        0  => 'JSON_ERROR_NONE',
-        1  => 'JSON_ERROR_DEPTH',
-        2  => 'JSON_ERROR_STATE_MISMATCH',
-        3  => 'JSON_ERROR_CTRL_CHAR',
-        4  => 'JSON_ERROR_SYNTAX',
-        5  => 'JSON_ERROR_UTF8',
-        6  => 'JSON_ERROR_RECURSION',
-        7  => 'JSON_ERROR_INF_OR_NAN',
-        8  => 'JSON_ERROR_UNSUPPORTED_TYPE',
-        9  => 'JSON_ERROR_INVALID_PROPERTY_NAME',
-        10 => 'JSON_ERROR_UTF16'
-      ];
-      return $decode_table[$err];
-    }
-
-    // -------------------------------------------------------------------------------------------------
-    private static function checkIp4($requestIp, $ip)
-    {
-        if (!filter_var($requestIp, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4))
-        {
-            return false;
-        }
-        if (false !== strpos($ip, '/'))
-        {
-            list($address, $netmask) = explode('/', $ip, 2);
-            if ($netmask === '0')
-            {
-                return filter_var($address, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
-            }
-            if ($netmask < 0 || $netmask > 32)
-            {
-                return false;
-            }
-        }
-        else
-        {
-            $address = $ip;
-            $netmask = 32;
-        }
-        return (substr_compare(sprintf('%032b', ip2long($requestIp)), sprintf('%032b', ip2long($address)), 0, $netmask) === 0);
-    }
-
-    // -------------------------------------------------------------------------------------------------
-    private static function to_utf8($s) // Not used. Have it in place for just in case
-    {
-      return iconv('CP1251', 'UTF-8', $s);
-    }
-
-    // -------------------------------------------------------------------------------------------------
-    // Helper - send JSON response and exit
-    // -------------------------------------------------------------------------------------------------
-    private static function json_response($contents, $status = TRUE, $extra_payload = FALSE)
-    {
-        $response = (object)[];
-        $response -> status = $status;
-        $response -> data = $contents;
-        if ($status && $extra_payload)
-        {
-            $response -> extra = $extra_payload;
-        }
-        header('Connection: Close');
-        header('Content-Type: application/json; charset=utf-8');
-
-        http_response_code($status ? self::HTTP_STATUS_OK: self::HTTP_STATUS_NOT_FOUND);
-        echo json_encode($response, self::JSON_MODE);
-        exit();
-    }
-
-    // -------------------------------------------------------------------------------------------------
-    // Helper - respond with an error
-    // -------------------------------------------------------------------------------------------------
-    private static function service_error($errText = 'NO SERVICE')
-    {
-        self::json_response($errText, false);
-    }
-
-    // -------------------------------------------------------------------------------------------------
-    // Helper - get caller IP address
-    // -------------------------------------------------------------------------------------------------
-    private static function get_caller_ip()
-    {
-        foreach (['HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR'] as $key)
-        {
-            if (array_key_exists($key, $_SERVER))
-            {
-                foreach (explode(',', $_SERVER[$key]) as $ip)
-                {
-                    $ip = trim($ip);
-                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false)
-                    {
-                        return $ip;
-                    }
-                }
-            }
-        }
-        // If none of the above
-        return $_SERVER['REMOTE_ADDR'];
-    }
+    private $serviceFilesLocation, $loggerSql, $connectionString, $dbAccount;
 
     // -------------------------------------------------------------------------------------------------
     // Validate/fix arguments' set against configuration
@@ -158,13 +31,13 @@ class Restql
                 }
                 else
                 {
-                    self::log($argument_name.' missing');
+                    RestqlHelpers::log($argument_name.' missing');
                     return FALSE;
                 }
             }
             elseif (array_key_exists('constant', $argument_settings))
             {
-                self::log($argument_name.' constant override');
+                RestqlHelpers::log($argument_name.' constant override');
                 return FALSE;
             }
 
@@ -174,7 +47,7 @@ class Restql
                 case 'number':
                 if (!is_numeric($target[$argument_name]) && !is_null($target[$argument_name]))
                 {
-                    self::log($argument_name.' type mismatch');
+                    RestqlHelpers::log($argument_name.' type mismatch');
                     return FALSE;
                 }
                 break;
@@ -182,14 +55,12 @@ class Restql
                 case 'boolean':
                 if (!is_bool($target[$argument_name]) && !is_null($target[$argument_name]))
                 {
-                    self::log($argument_name.' type mismatch');
+                    RestqlHelpers::log($argument_name.' type mismatch');
                     return FALSE;
                 }
-
                 // PDO has problems with boolean parameters
                 if (is_bool($target[$argument_name]))
                     $target[$argument_name] = $target[$argument_name] ? 1: 0;
-
                 break;
 
                 case 'text':
@@ -197,20 +68,20 @@ class Restql
                 {
                     if (!preg_match($argument_settings['pattern'], $target[$argument_name]))
                     {
-                        self::log($argument_name.' pattern mismatch');
+                        RestqlHelpers::log($argument_name.' pattern mismatch');
                         return FALSE;
                     }
                 }
                 break;
 
                 default:
-                    self::log('Unsupported argument type: '.$argument_settings['type']);
-                    self::service_error();
+                    RestqlHelpers::log('Unsupported argument type: '.$argument_settings['type']);
+                    RestqlHelpers::service_error();
             }
             else
             {
-                self::log('No argument type for '.$argument_name);
-                self::service_error();
+                RestqlHelpers::log('No argument type for '.$argument_name);
+                RestqlHelpers::service_error();
             }
         }
 
@@ -218,29 +89,12 @@ class Restql
         {
             if (!array_key_exists($targetKey, $config_arguments))
             {
-                self::log('Runtime argument '.$targetKey.' one too many');
+                RestqlHelpers::log('Runtime argument '.$targetKey.' one too many');
                 return FALSE;
             }
         }
 
         return TRUE;
-    }
-
-    // -------------------------------------------------------------------------------------------------
-    // IP security
-    // -------------------------------------------------------------------------------------------------
-    private static function ip_is_allowed($callerIp, $iplist)
-    {
-        $ipIsAllowed = FALSE;
-        foreach ($iplist as $ip)
-        {
-            if (self::checkIp4($callerIp, $ip))
-            {
-                $ipIsAllowed = TRUE;
-                break;
-            }
-        }
-        return $ipIsAllowed;
     }
 
     // -------------------------------------------------------------------------------------------------
@@ -263,7 +117,7 @@ class Restql
                 $errMessage = $ignored -> getMessage();
             };
             ob_end_clean();
-            if (!is_null($errMessage)) self::log($errMessage);
+            if (!is_null($errMessage)) RestqlHelpers::log($errMessage);
         }
         return $retval;
     }
@@ -294,7 +148,7 @@ class Restql
         }
 
         $resourceName = $_SERVER['QUERY_STRING'];
-        $callerIp = self::get_caller_ip();
+        $callerIp = RestqlHelpers::get_caller_ip();
 
         // Check for a revision call
         $revisionResource = [];
@@ -309,14 +163,14 @@ class Restql
         if ($revisionResource)
         {
             $revisionTime = @ filemtime($resourceIniFileName);
-            self::json_response($revisionTime);
+            RestqlHelpers::json_response($revisionTime);
         }
 
         // Parse service definition
         if (!file_exists($resourceIniFileName))
         {
-            self::log('File .config.json missing');
-            self::service_error();
+            RestqlHelpers::log('File .config.json missing');
+            RestqlHelpers::service_error();
         }
 
         $cfg_text = file_get_contents($resourceIniFileName);
@@ -334,15 +188,15 @@ class Restql
             	])
            )
         {
-            self::log('Mandatory configuration attribute(s) missing or invalid');
-            self::service_error();
+            RestqlHelpers::log('Mandatory configuration attribute(s) missing or invalid');
+            RestqlHelpers::service_error();
         }
 
         // Check IP restrictions if any
-        if (array_key_exists('iplist', $cfg_settings) && !self::ip_is_allowed($callerIp, $cfg_settings['iplist']))
+        if (array_key_exists('iplist', $cfg_settings) && !RestqlHelpers::ip_is_allowed($callerIp, $cfg_settings['iplist']))
         {
-            self::log('Rejected '.$callerIp);
-            self::service_error();
+            RestqlHelpers::log('Rejected '.$callerIp);
+            RestqlHelpers::service_error();
         }
 
         // Sort out post-processing
@@ -354,20 +208,20 @@ class Restql
         $json_error = json_last_error();
         if ($json_error !== JSON_ERROR_NONE)
         {
-            self::log('Call arguments JSON error: ' . self::decode_json_error($json_error));
-            self::service_error('Arguments error');
+            RestqlHelpers::log('Call arguments JSON error: ' . RestqlHelpers::decode_json_error($json_error));
+            RestqlHelpers::service_error('Arguments error');
         }
         
         $headers = getallheaders();
         if (!array_key_exists('Authorization', $headers) || ($headers['Authorization'] != $cfg_settings['token']))
         {
-            self::log('Authorization error');
-            self::service_error('Arguments error');
+            RestqlHelpers::log('Authorization error');
+            RestqlHelpers::service_error('Arguments error');
         }
 
         if (!self::manage_arguments($args, $cfg_arguments))
         {
-            self::service_error('Arguments error');
+            RestqlHelpers::service_error('Arguments error');
         }
 
         try
@@ -401,33 +255,33 @@ class Restql
                 case (self::SINGLE_RECORD_RESPONSE):
                     $response = $prs->fetch(PDO::FETCH_ASSOC);
                     $extra = self::servicePostProcess($postProcessFileName, $args, $response, $conn);
-                    self::json_response($response, TRUE, $extra);
+                    RestqlHelpers::json_response($response, TRUE, $extra);
                     break;
                 case (self::RESULT_SET_RESPONSE):
                     $response = $prs->fetchAll(PDO::FETCH_ASSOC);
                     $extra = self::servicePostProcess($postProcessFileName, $args, $response, $conn);
-                    self::json_response($response, TRUE, $extra);
+                    RestqlHelpers::json_response($response, TRUE, $extra);
                     break;
                 case (self::SINGLE_VALUE_RESPONSE):
                     $response = $prs->fetchColumn();
                     $extra = self::servicePostProcess($postProcessFileName, $args, $response, $conn);
-                    self::json_response($response, TRUE, $extra);
+                    RestqlHelpers::json_response($response, TRUE, $extra);
                     break;
                 case (self::JSON_VALUE_RESPONSE):
                     $response = $prs->fetchColumn();
                     $extra = self::servicePostProcess($postProcessFileName, $args, $response, $conn);
-                    self::json_response(json_decode($response), TRUE, $extra);
+                    RestqlHelpers::json_response(json_decode($response), TRUE, $extra);
                     break;
                 case (self::VOID_RESPONSE):
                     $response = null;
                     $extra = self::servicePostProcess($postProcessFileName, $args, $response, $conn);
-                    self::json_response('OK', TRUE, $extra);
+                    RestqlHelpers::json_response('OK', TRUE, $extra);
             }
         }
         catch (Exception $err)
         {
-            self::log('Runtime: '.$err->getMessage());
-            self::service_error('Runtime error');
+            RestqlHelpers::log('Runtime: '.$err->getMessage());
+            RestqlHelpers::service_error('Runtime error');
         }
     }
 }
