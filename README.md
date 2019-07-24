@@ -1,5 +1,5 @@
 # ***restql*** - RESTful web services in SQL
-### SQL query to RESTful service generator in PHP
+### SQL query to RESTful service generator
 
 
 ## About
