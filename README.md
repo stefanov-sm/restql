@@ -354,9 +354,9 @@ order deny,allow
  - URL without URL rewrite
    `<base_url>/restql.php?<service_name>`
  - The security token is sent as `Authorization` request header
- - Method: `POST`
+ - Method `POST`
  - Call arguments are POST-ed as JSON
- - Method: `GET`
+ - Method `GET`
  - `<service_name>.config.json` must have `"arguments": {}`
  - Request body is ignored
  
