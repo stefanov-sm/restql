@@ -5,7 +5,8 @@
 require (__DIR__.DIRECTORY_SEPARATOR.'restql.helpers.class.php');
 class Restql
 {
-    const   RESULT_SET_RESPONSE = 'table', SINGLE_VALUE_RESPONSE = 'value', JSON_VALUE_RESPONSE = 'jsonvalue', SINGLE_RECORD_RESPONSE = 'row', VOID_RESPONSE = 'void';
+    const   RESULT_SET_RESPONSE = 'table', SINGLE_VALUE_RESPONSE = 'value', 
+            JSON_VALUE_RESPONSE = 'jsonvalue', SINGLE_RECORD_RESPONSE = 'row', VOID_RESPONSE = 'void';
     const   REVISION_XR = '/^(\w+)\/revision$/';
 
     private $serviceFilesLocation, $loggerSql, $connectionString, $dbAccount;
