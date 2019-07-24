@@ -353,9 +353,13 @@ order deny,allow
    `<base_url>/svc/<service_name>`
  - URL without URL rewrite
    `<base_url>/restql.php?<service_name>`
- - Method: `POST`
  - The security token is sent as `Authorization` request header
+ - Method: `POST`
  - Call arguments are POST-ed as JSON
+ - Method: `GET`
+ - `<service_name>.config.json` must have `"arguments": {}`
+ - Call arguments are POST-ed as JSON
+ 
 
 #### Service revision check
  - URL with URL rewrite
