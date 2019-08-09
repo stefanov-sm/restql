@@ -97,6 +97,7 @@ In this example `<instance config>` is a folder called `include` above base fold
              ├file 'restql.php'
              ├folder 'include'
              │       ├file 'restql.class.php'
+             │       ├file 'restql.helpers.class.php'
              │       ├file 'db.connection.config'
              │       ├file 'db.account.config'
              │       └file 'logger.sql.config'
