@@ -10,7 +10,7 @@ function http_post_json($url, $content, $authorization)
     ];
     $context = stream_context_create($raw_context);
     $retval = ['http_status' => 'No HTTP status'];
-    if (preg_match('/^https?:\/\/[^\s\/\$\.\?\#\(\)]*(\.[^\s]*)*$/', $url))
+    if (filter_var($url, FILTER_VALIDATE_URL))
     {
         $retval['value'] = @ file_get_contents($url, FALSE, $context);
         if (!$retval['value'])
@@ -39,7 +39,7 @@ function http_get_json($url, $authorization)
     ];
     $context = stream_context_create($raw_context);
     $retval = ['http_status' => 'No HTTP status'];
-    if (preg_match('/^https?:\/\/[^\s\/\$\.\?\#\(\)]*(\.[^\s]*)*$/', $url))
+    if (filter_var($url, FILTER_VALIDATE_URL))
     {
         $retval['value'] = @ file_get_contents($url, FALSE, $context);
         if (!$retval['value'])
