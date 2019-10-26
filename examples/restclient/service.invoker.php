@@ -87,7 +87,7 @@ header('Cache-Control: no-cache, no-store, must-revalidate');
     <table style="width:100%">
         <tr>
             <td style="color:red; width: 80%"><?php echo "$method: {$response['http_status']}, execution time $msPassed ms" ?></td>
-            <td style="width: 20%" align="right"><input type="button" value="Clear" onclick="document.location.href='about:blank'" ></td>
+            <td style="width: 20%" align="right"><input type="image" src="Clear.png" style="width:48px" onclick="document.location.href='about:blank'" title="Clear result pane"></td>
         </tr>
     </table>
     <hr>

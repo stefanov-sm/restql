@@ -5,10 +5,11 @@
         <title>restql basic client</title>
         <style>
             body            { font-family:Calibri;background-color:#EAEAE8}
+            img             { width:64px}
             input           { background-color:GhostWhite}
             input.text      { width:100%; background-color:GhostWhite}
-            textarea.post   { width:100%; background-color:GhostWhite; height:100px; resize:none}
-            iframe.response { width:100%; height:400px; border:0px}
+            textarea.post   { width:100%; background-color:GhostWhite; height:200px; resize:none}
+            iframe.response { width:100%; height:450px; border:0px}
             div.external    { width:800px; margin-left:auto; margin-right:auto;}
             div.internal    { width:800px; border: 2px solid blue; padding-left:10px; padding-right:5px; padding-top:5px; padding-bottom:5px; border-radius: 10px; background-color:Beige}
             div.invisible   { width:800px; border: 0px;}
@@ -18,7 +19,7 @@
     <body>
     <div class="external">
         <div class="invisible" align="right">
-            <img src="cloud.png">
+            <a href="https://github.com/stefanov-sm/restql/tree/master/examples/restclient"><img src="resql.png"></a>
         </div>
         <div class="internal">
             <form method="POST" id="invoker" action="service.invoker.php" target="response_area" onsubmit="document.getElementById('response_area').focus()">
