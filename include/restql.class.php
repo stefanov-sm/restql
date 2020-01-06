@@ -65,13 +65,15 @@ class Restql
                 break;
 
                 case 'text':
-                if (array_key_exists('pattern', $argument_settings) && !is_null($target[$argument_name]))
+                if (!is_string($target[$argument_name]) && !is_null($target[$argument_name]))
                 {
-                    if (!preg_match($argument_settings['pattern'], $target[$argument_name]))
-                    {
-                        RestqlHelpers::log($argument_name.' pattern mismatch');
-                        return FALSE;
-                    }
+                    RestqlHelpers::log($argument_name.' type mismatch');
+                    return FALSE;
+                }
+                if (array_key_exists('pattern', $argument_settings) && !is_null($target[$argument_name]) && !preg_match($argument_settings['pattern'], $target[$argument_name]))
+                {
+                    RestqlHelpers::log($argument_name.' pattern mismatch');
+                    return FALSE;
                 }
                 break;
 
