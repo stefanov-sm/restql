@@ -312,7 +312,7 @@ $response_data - native 'data' part of the response
 $dbConn - the PDO connection
 */
 ``` 
-must be defined in the file. It that will be called to do the post-processing. Whatever is returned by this function will be put into the service response as 'extra'.  
+must be defined in the file. It will be called to do the post-processing. Whatever is returned by this function will be put into the service response as 'extra'.  
 
 A sample post-processing file called `demo.postprocess.php` is provided but not referenced in `demo.config.json` and therefore it does not get invoked. In order to do so change 
 ```json
