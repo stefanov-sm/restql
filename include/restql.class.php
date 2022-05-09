@@ -215,11 +215,11 @@ class Restql
             RestqlHelpers::service_error('Arguments error');
         }
         
-        $headers = getallheaders();
-        if (!array_key_exists('Authorization', $headers) || ($headers['Authorization'] != $cfg_settings['token']))
+        $headers = array_change_key_case(getallheaders(), CASE_UPPER); // Headers' names are case-insensitive
+        if (!array_key_exists('AUTHORIZATION', $headers) || ($headers['AUTHORIZATION'] != $cfg_settings['token']))
         {
-            RestqlHelpers::log('Authorization error');
-            RestqlHelpers::service_error('Arguments error');
+            $this->errutil->log('Authorization error '. $headers['AUTHORIZATION']);
+            $this->errutil->service_error('Arguments error');
         }
 
         if (!self::manage_arguments($args, $cfg_arguments))
