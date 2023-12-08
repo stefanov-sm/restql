@@ -1,4 +1,4 @@
-## ***restclient*** simplistic restql client  
+## ***restclient*** simplistic client  
 
 ***restclient*** is a frugal pure vanilla web GUI example. You can use it to test and debug services. 
 
