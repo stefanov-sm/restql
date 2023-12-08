@@ -4,4 +4,4 @@
 
 if **JSON args** is **not** checked then GET request method is used, otherwise - POST.
 
-<img src="restclient.png" style='border: 1px solid black' />
+<img src="restclient.png" width="650">
